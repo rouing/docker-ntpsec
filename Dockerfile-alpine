@@ -2,12 +2,12 @@ FROM alpine:latest
 LABEL maintainer "rouing"
 LABEL description "NTP reference implementation, refactored for security"
 
-ENV NTPSEC_BUILD_DEPS m4 tar gcc libc-dev linux-lts-dev libressl-dev libcap-dev libseccomp-dev gnu-libiconv-dev libevent-dev python3-dev asciidoc openssl-dev linux-headers py3-gpsd python3 git busybox abuild patch bsd-compat-headers musl-dev
+ENV NTPSEC_BUILD_DEPS m4 tar gcc sed
 
 RUN apk add --no-cache $NTPSEC_BUILD_DEPS
 
 # https://github.com/ntpsec/ntpsec/releases
-ENV NTPSEC_VERSION 1.1.8
+ENV NTPSEC_VERSION 1.1.9
 ENV NTPSEC_DOWNLOAD_URL "https://ftp.ntpsec.org/pub/releases/ntpsec-${NTPSEC_VERSION}.tar.gz"
 ENV NTPSEC_SHA256 8445827a4d5029da508a11e9c8e7958db839f73b39de612ab3909244f89a1340
 
@@ -18,11 +18,12 @@ RUN set -x && \
     echo "${NTPSEC_SHA256} *ntpsec.tar.gz" | sha256sum -c - && \
     tar xzf ntpsec.tar.gz
 
-COPY python-to-python3.patch /tmp/ntpsec-${NTPSEC_VERSION}/
-
 RUN set -x && \
     cd /tmp/ntpsec-${NTPSEC_VERSION} && \
-    patch -p1 -i python-to-python3.patch && \
+    sed -i 's/$install build-base python                  # basic tools/$install build-base python3 linux-lts-dev busybox # basic tools/g' buildprep && \
+    sed -i 's/# probably needs more, but this builds/$install asciidoc py3-gpsd gpsd-dev/g' buildprep && \
+    sed -i 's/# can't find timepps.h: gpsd and chrony have their own ??/$install libc-dev openssl-dev/g' buildprep && \
+    ./buildprep && \
     ./waf configure --prefix=/usr --python=python3 --enable-leap-smear --enable-mssntp --refclock=all && \
     ./waf build --verbose && \
     ./waf check --verbose && \
