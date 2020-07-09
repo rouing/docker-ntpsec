@@ -21,7 +21,7 @@ RUN set -x && \
 RUN set -x && \
     cd /tmp/ntpsec-${NTPSEC_VERSION} && \
     sed -i 's/python --version/python3 --version/g' buildprep && \
-    find /tmp/ntpsec${NTPSEC_VERSION} \( -type d -name .git -prune \) -o -type f | xargs sed -i 's/env python/env python3/g' && \
+    find /tmp/ntpsec-${NTPSEC_VERSION} \( -type d -name .git -prune \) -o -type f | xargs sed -i 's/env python/env python3/g' && \
     sed -i 's/$install build-base python                  # basic tools/$install build-base python3 linux-lts-dev busybox # basic tools/g' buildprep && \
     sed -i 's/# probably needs more, but this builds/$install py3-gpsd gpsd-dev/g' buildprep && \
     sed -i 's/# can'\''t find timepps.h: gpsd and chrony have their own ??/$install libc-dev openssl-dev/g' buildprep && \
