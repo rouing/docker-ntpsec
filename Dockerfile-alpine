@@ -31,7 +31,7 @@ RUN set -x && \
 #------------------------------------------------------------------------------#
 FROM alpine:latest
 
-ENV NTPSEC_RUN_DEPS python3 libressl libcap libseccomp py3-gps
+ENV NTPSEC_RUN_DEPS python3 libressl libcap libseccomp py3-gpsd
 
 RUN apk add --no-cache $NTPSEC_RUN_DEPS
 
