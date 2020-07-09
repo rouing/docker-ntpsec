@@ -23,7 +23,7 @@ RUN set -x && \
     sed -i 's/python --version/python3 --version/g' buildprep && \
     find ./ \( -type d -name .git -prune \) -o -type f | xargs sed -i 's/env python/env python3/g' && \
     sed -i 's/python${PYVERS}-dev linux-headers/python3-dev linux-headers avahi-dev/g' buildprep && \
-    sed -i 's/build-base python/build-base linux-lts-dev busybox avahi-compat-libdns_sd/g' buildprep && \
+    sed -i 's/build-base python/build-base linux-lts-dev busybox/g' buildprep && \
     sed -i 's/# probably needs more, but this builds/$install py3-gpsd gpsd-dev/g' buildprep && \
     sed -i 's/# can'\''t find timepps.h: gpsd and chrony have their own ??/$install libc-dev openssl-dev/g' buildprep && \
     ./buildprep && \
@@ -35,7 +35,7 @@ RUN set -x && \
 #------------------------------------------------------------------------------#
 FROM alpine:latest
 
-ENV NTPSEC_RUN_DEPS python3 libressl libcap libseccomp py3-gpsd
+ENV NTPSEC_RUN_DEPS python3 libressl libcap libseccomp py3-gpsd avahi-compat-libdns_sd
 
 RUN apk add --no-cache $NTPSEC_RUN_DEPS
 
