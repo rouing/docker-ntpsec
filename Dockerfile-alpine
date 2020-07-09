@@ -2,7 +2,7 @@ FROM alpine:latest
 LABEL maintainer "rouing"
 LABEL description "NTP reference implementation, refactored for security"
 
-ENV NTPSEC_BUILD_DEPS m4 tar gcc libc-dev bison libressl-dev libcap-dev libseccomp-dev python3-dev asciidoc openssl-dev linux-headers py3-gpsd python3 git busybox abuild patch
+ENV NTPSEC_BUILD_DEPS m4 tar gcc libc-dev linux-lts-dev libressl-dev libcap-dev libseccomp-dev gnu-libiconv-dev libevent-dev python3-dev asciidoc openssl-dev linux-headers py3-gpsd python3 git busybox abuild patch bsd-compat-headers musl-dev
 
 RUN apk add --no-cache $NTPSEC_BUILD_DEPS
 
