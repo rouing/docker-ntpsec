@@ -51,7 +51,4 @@ RUN ntpd --version
 
 ENTRYPOINT ["/usr/sbin/ntpd"]
 
-CMD ["-c /etc/ntp.conf"]
-## libseccomp restrictions don't work, no leap seconds
-## changing nice (process priority) is not permitted even with --cap-add SYS_NICE, same locking process into RAM
-# CMD ["-n", "-i", "/var/ntpsec/", "-u", "_ntpsec:_ntpsec", "-N"]
+CMD ["-n", "-c", "/etc/ntp.conf"]
