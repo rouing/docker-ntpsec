@@ -7,9 +7,9 @@ ENV NTPSEC_BUILD_DEPS m4 tar gcc libc-dev bison libressl-dev libcap-dev libsecco
 RUN apk add --no-cache $NTPSEC_BUILD_DEPS
 
 # https://github.com/ntpsec/ntpsec/releases
-ENV NTPSEC_VERSION 1.1.9
+ENV NTPSEC_VERSION 1.1.8
 ENV NTPSEC_DOWNLOAD_URL "https://ftp.ntpsec.org/pub/releases/ntpsec-${NTPSEC_VERSION}.tar.gz"
-ENV NTPSEC_SHA256 0acade979a807a047c2a8fd7f497235d9d6a5d0d54726e5d27505506d6ec00cc
+ENV NTPSEC_SHA256 226b4b29d5166ea3d241a24f7bfc2567f289cf6ed826d8aeb9f2f261c1836bde
 
 RUN set -x && \
     mkdir -p /tmp && \
@@ -51,7 +51,7 @@ RUN ntpd --version
 
 ENTRYPOINT ["/usr/sbin/ntpd"]
 
-CMD ["-n"]
+CMD ["-c /etc/ntp.conf"]
 ## libseccomp restrictions don't work, no leap seconds
 ## changing nice (process priority) is not permitted even with --cap-add SYS_NICE, same locking process into RAM
 # CMD ["-n", "-i", "/var/ntpsec/", "-u", "_ntpsec:_ntpsec", "-N"]
