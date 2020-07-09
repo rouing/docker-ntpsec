@@ -1,6 +1,8 @@
-This image is designed to be used as part of the [www.pool.ntp.org](https://ntppool.org) project.
+This image contains the [NTPsec NTPd Server/Client](https://docs.ntpsec.org/latest/NTS-QuickStart.html).
+This allows for secure time with clients like cloudflare's NTS time serer.
 
-Default is (0-3).ntp.pool.org 
+
+Default time server is set to (0-3).ntp.pool.org 
 
 ```bash
 
