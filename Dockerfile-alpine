@@ -9,7 +9,7 @@ RUN apk add --no-cache $NTPSEC_BUILD_DEPS
 # https://github.com/ntpsec/ntpsec/releases
 ENV NTPSEC_VERSION 1.1.9
 ENV NTPSEC_DOWNLOAD_URL "https://ftp.ntpsec.org/pub/releases/ntpsec-${NTPSEC_VERSION}.tar.gz"
-ENV NTPSEC_SHA256 8445827a4d5029da508a11e9c8e7958db839f73b39de612ab3909244f89a1340
+ENV NTPSEC_SHA256 0acade979a807a047c2a8fd7f497235d9d6a5d0d54726e5d27505506d6ec00cc
 
 RUN set -x && \
     mkdir -p /tmp && \
