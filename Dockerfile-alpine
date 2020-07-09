@@ -2,7 +2,7 @@ FROM alpine:latest
 LABEL maintainer "rouing"
 LABEL description "NTP reference implementation, refactored for security"
 
-ENV NTPSEC_BUILD_DEPS m4 tar gcc libc-dev bison libressl-dev libcap-dev libseccomp-dev python3-dev asciidoc openssl-dev linux-headers py3-gpsd python3 git
+ENV NTPSEC_BUILD_DEPS m4 tar gcc libc-dev bison libressl-dev libcap-dev libseccomp-dev python3-dev asciidoc openssl-dev linux-headers py3-gpsd python3 git busybox abuild patch
 
 RUN apk add --no-cache $NTPSEC_BUILD_DEPS
 
@@ -22,7 +22,7 @@ COPY python-to-python3.patch /tmp/ntpsec-${NTPSEC_VERSION}/
 
 RUN set -x && \
     cd /tmp/ntpsec-${NTPSEC_VERSION} && \
-    patch < python-to-python3.path && \
+    patch -p1 -i python-to-python3.patch && \
     ./waf configure --prefix=/usr --python=python3 --enable-leap-smear --enable-mssntp --refclock=all && \
     ./waf build --verbose && \
     ./waf check --verbose && \
@@ -49,7 +49,7 @@ EXPOSE 123/tcp
 
 RUN ntpd --version
 
-ENTRYPOINT ["/usr/bin/ntpd"]
+ENTRYPOINT ["/usr/sbin/ntpd"]
 
 CMD ["-n"]
 ## libseccomp restrictions don't work, no leap seconds
