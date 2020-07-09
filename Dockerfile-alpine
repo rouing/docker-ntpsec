@@ -2,62 +2,20 @@
 # Do not use if you care about security (read comments)!
 
 FROM alpine:latest
-LABEL maintainer "publicarray"
+LABEL maintainer "rouing"
 LABEL description "NTP reference implementation, refactored for security"
-ENV REVISION 0
 
-ENV NTPSEC_BUILD_DEPS python-dev m4 tar gcc libc-dev bison libressl-dev libcap-dev libseccomp-dev
-
-RUN apk add --no-cache $NTPSEC_BUILD_DEPS
-
-# https://github.com/ntpsec/ntpsec/releases
-ENV NTPSEC_VERSION 1.1.8
-ENV NTPSEC_DOWNLOAD_URL "https://ftp.ntpsec.org/pub/releases/ntpsec-${NTPSEC_VERSION}.tar.gz"
-ENV NTPSEC_SHA256 226b4b29d5166ea3d241a24f7bfc2567f289cf6ed826d8aeb9f2f261c1836bde
-
-RUN set -x && \
-    mkdir -p /tmp && \
-    cd /tmp && \
-    wget -O ntpsec.tar.gz $NTPSEC_DOWNLOAD_URL && \
-    echo "${NTPSEC_SHA256} *ntpsec.tar.gz" | sha256sum -c - && \
-    tar xzf ntpsec.tar.gz && \
-    cd ntpsec-${NTPSEC_VERSION} && \
-    ## can't find apk \
-    # ./buildprep && \
-    ./waf configure && \
-    ./waf build && \
-    ./waf check && \
-    ./waf install
-
-#------------------------------------------------------------------------------#
-FROM alpine:latest
-
-ENV NTPSEC_RUN_DEPS python libressl libcap libseccomp
-
-RUN apk add --no-cache $NTPSEC_RUN_DEPS
-
-COPY --from=0 /usr/local/sbin/ntpd /usr/local/sbin/ntpd
-COPY --from=0 /usr/local/bin/ntp* /usr/local/bin/
-COPY --from=0 /usr/local/lib/python2.7/site-packages/ntp/ /usr/local/lib/python2.7/site-packages/ntp/
-
-RUN set -x && \
-    mkdir -p /var/ntpsec/ && \
-    addgroup -S _ntpsec && \
-    adduser -S -D -H -s /sbin/nologin -G _ntpsec -g _ntpsec _ntpsec && \
-    chown -R _ntpsec:_ntpsec /var/ntpsec/
+RUN echo http://dl-2.alpinelinux.org/alpine/v3.12/community >> /etc/apk/repositories
+RUN apk update
+RUN apk add ntpsec
 
 COPY ntp.conf /etc/ntp.conf
 
 EXPOSE 123/udp
+EXPOSE 123/tcp
 
 RUN ntpd --version
-
-## Broken, Can't find ntp python module
-# RUN ntpq --version
 
 ENTRYPOINT ["/usr/local/sbin/ntpd"]
 
 CMD ["-n"]
-## libseccomp restrictions don't work, no leap seconds
-## changing nice (process priority) is not permitted even with --cap-add SYS_NICE, same locking process into RAM
-# CMD ["-n", "-i", "/var/ntpsec/", "-u", "_ntpsec:_ntpsec", "-N"]
