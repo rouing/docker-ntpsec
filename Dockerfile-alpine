@@ -16,6 +16,6 @@ EXPOSE 123/tcp
 
 RUN ntpd --version
 
-ENTRYPOINT ["/usr/local/sbin/ntpd"]
+ENTRYPOINT ["/usr/bin/ntpd"]
 
 CMD ["-n"]
