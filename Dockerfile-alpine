@@ -20,6 +20,7 @@ RUN set -x && \
 
 RUN set -x && \
     cd /tmp/ntpsec-${NTPSEC_VERSION} && \
+    sed -i 's/python --version/python3 --version/g' buildprep && \
     sed -i 's/$install build-base python                  # basic tools/$install build-base python3 linux-lts-dev busybox # basic tools/g' buildprep && \
     sed -i 's/# probably needs more, but this builds/$install asciidoc py3-gpsd gpsd-dev/g' buildprep && \
     sed -i 's/# can'\''t find timepps.h: gpsd and chrony have their own ??/$install libc-dev openssl-dev/g' buildprep && \
