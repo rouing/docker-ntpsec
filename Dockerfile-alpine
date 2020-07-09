@@ -22,7 +22,7 @@ RUN set -x && \
     cd /tmp/ntpsec-${NTPSEC_VERSION} && \
     sed -i 's/$install build-base python                  # basic tools/$install build-base python3 linux-lts-dev busybox # basic tools/g' buildprep && \
     sed -i 's/# probably needs more, but this builds/$install asciidoc py3-gpsd gpsd-dev/g' buildprep && \
-    sed -i 's/# can\'t find timepps.h: gpsd and chrony have their own ??/$install libc-dev openssl-dev/g' buildprep && \
+    sed -i 's/# can'\''t find timepps.h: gpsd and chrony have their own ??/$install libc-dev openssl-dev/g' buildprep && \
     ./buildprep && \
     ./waf configure --prefix=/usr --python=python3 --enable-leap-smear --enable-mssntp --refclock=all && \
     ./waf build --verbose && \
