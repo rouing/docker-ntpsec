@@ -22,10 +22,10 @@ RUN set -x && \
     cd /tmp/ntpsec-${NTPSEC_VERSION} && \
     sed -i 's/python --version/python3 --version/g' buildprep && \
     find ./ \( -type d -name .git -prune \) -o -type f | xargs sed -i 's/env python/env python3/g' && \
-    sed -i 's/python${PYVERS}-dev linux-headers/python3-dev linux-headers avahi-dev/g' buildprep && \
+    sed -i 's/python${PYVERS}-dev linux-headers/python3-dev linux-headers /g' buildprep && \
     sed -i 's/build-base python/build-base linux-lts-dev busybox libexecinfo-dev/g' buildprep && \
     sed -i 's/# probably needs more, but this builds/$install py3-gpsd gpsd-dev libbsd-dev/g' buildprep && \
-    sed -i 's/# can'\''t find timepps.h: gpsd and chrony have their own ??/$install libc-dev openssl-dev/g' buildprep && \
+    sed -i 's/# can'\''t find timepps.h: gpsd and chrony have their own ??/$install openssl-dev acpica/g' buildprep && \
     ./buildprep && \
     ./waf configure --prefix=/usr --python=python3 --enable-leap-smear --enable-mssntp --refclock=all && \
     ./waf build --verbose && \
