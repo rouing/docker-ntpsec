@@ -16,10 +16,11 @@
       --cache-from $IMAGE
       --rm=false
       --tag $IMAGE .
-      --file $DOCKER_FILE
+      --file $CI_JOB_NAME
     - docker push $IMAGE
 
 .deploy_template: &release_definition
+  stage: deploy
   after_script:
     - export DHUB_IMAGE_NAME=$DOCKER_HUB_USER/$IMAGE_NAME
     - docker logout
