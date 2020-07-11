@@ -3,13 +3,14 @@
   image: docker:stable
   services:
     - docker:stable-dind
-  script:
+  before_script:
     - IMAGE_NAME=${CI_JOB_NAME%_*}
     - export IMAGE_NAME=${IMAGE_NAME/-/\/}
     - export IMAGE_TAG=${CI_JOB_NAME#*_}
     - export IMAGE=$CI_REGISTRY_IMAGE/$IMAGE_NAME:$IMAGE_TAG
+  script: &build_script 
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker pull $CI_REGISTRY_IMAGE/$IMAGE_NAME:$IMAGE_TAG || true
+    - docker pull $IMAGE || true
     - >
       docker build
       --pull
@@ -20,21 +21,22 @@
     - docker push $IMAGE
 
 .deploy_template: &release_definition
+  <<: *build_definition
   stage: deploy
-  after_script:
+  script:
+    <<: *build_script 
     - export DHUB_IMAGE_NAME=$DOCKER_HUB_USER/$IMAGE_NAME
     - docker logout
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_TOKEN docker.io
-    - docker tag $IMAGE_LABEL $DOCKER_HUB_USER/$IMAGE_NAME:$IMAGE_TAG
+    - docker tag $IMAGE $DOCKER_HUB_USER/$IMAGE_NAME:$IMAGE_TAG
     - docker push docker.io/$DOCKER_HUB_USER/$IMAGE_NAME:$IMAGE_TAG
 
 builder-alpine_latest: # builder/alpine:latest
   <<: *build_definition
 
 ntpsec_alpine: # ntpsec:alpine
-  <<: *build_definition
   <<: *release_definition
-  after_script:
+  script:
     - docker tag $IMAGE $DHUB_IMAGE_NAME:latest
     - docker tag $IMAGE $DHUB_IMAGE_NAME:alpine-latest
     - docker tag $IMAGE $DHUB_IMAGE_NAME:alpine3
@@ -46,9 +48,8 @@ builder-alpine_edge: # builder/alpine:edge
   <<: *build_definition
 
 ntpsec_alpine-edge: # ntpsec:alpine-edge
-  <<: *build_definition
   <<: *release_definition
-  after_script:
+  script:
     - docker tag $IMAGE $DHUB_IMAGE_NAME:1.1.9-alpine-edge
     - docker push docker.io/$DOCKER_HUB_USER/$IMAGE_NAME
 
@@ -56,9 +57,8 @@ builder-centos_latest: # builder/centos:latest
   <<: *build_definition
 
 ntpsec_centos: # ntpsec:centos
-  <<: *build_definition
   <<: *release_definition
-  after_script:
+  script:
     - docker tag $IMAGE $DHUB_IMAGE_NAME:centos-latest
     - docker tag $IMAGE $DHUB_IMAGE_NAME:centos8
     - docker tag $IMAGE $DHUB_IMAGE_NAME:centos8.2
@@ -71,9 +71,8 @@ builder-debian_latest: # builder/debian:latest
   <<: *build_definition
 
 ntpsec_debian: # ntpsec:debian
-  <<: *build_definition
   <<: *release_definition
-  after_script:
+  script:
     - docker tag $IMAGE $DHUB_IMAGE_NAME:debian-latest
     - docker tag $IMAGE $DHUB_IMAGE_NAME:debian10
     - docker tag $IMAGE $DHUB_IMAGE_NAME:debian10.4
