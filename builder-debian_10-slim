@@ -1,10 +1,10 @@
-FROM debian:latest
+FROM debian:10-slim
 
 LABEL maintainer "rouing"
 LABEL description "NTP reference implementation, refactored for security"
 
 RUN apt-get update \
-    && apt-get install -y pkg-config m4 wget tar gcc bison python3-dev libssl-dev libcap-dev libseccomp-dev pps-tools libavahi-compat-libdnssd-dev libbsd-dev python3-ntp libgps-dev \
+    && apt-get install -y netbase pkg-config m4 wget tar gcc bison python3-dev libssl-dev libcap-dev libseccomp-dev pps-tools libavahi-compat-libdnssd-dev libbsd-dev python3-ntp libgps-dev \
     && rm -rf /var/lib/apt/lists/*
 
 ENV NTPSEC_VERSION 1.1.9

@@ -1,5 +1,5 @@
-FROM registry.gitlab.com/rouing/docker-ntpsec/builder/debian:latest AS builder
-FROM debian:latest
+FROM registry.gitlab.com/rouing/docker-ntpsec/builder/debian:testing AS builder
+FROM debian:testing
 
 LABEL maintainer "rouing"
 LABEL description "NTP reference implementation, refactored for security"
