@@ -30,7 +30,7 @@ services:
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_TOKEN docker.io
     - docker tag $IMAGE $DOCKER_HUB_USER/$IMAGE_NAME:$IMAGE_TAG
 
-builder-alpine_3.12: # builder/alpine:latest
+builder-alpine_3.12: # builder/alpine:3.12
   extends: .build_template
 
 ntpsec_alpine3.12: # ntpsec:alpine
@@ -38,13 +38,13 @@ ntpsec_alpine3.12: # ntpsec:alpine
   script:
     - *build_script
     - *deploy_script
-    - docker tag $IMAGE $DHUB_IMAGE_NAME:latest
-    - docker tag $IMAGE $DHUB_IMAGE_NAME:alpine
-    - docker tag $IMAGE $DHUB_IMAGE_NAME:alpine-latest
+    - docker tag $IMAGE $DHUB_IMAGE_NAME:latest # Core Latest
+    - docker tag $IMAGE $DHUB_IMAGE_NAME:alpine # Alpine Latest
+    - docker tag $IMAGE $DHUB_IMAGE_NAME:alpine-latest # Alpine Latest
     - docker tag $IMAGE $DHUB_IMAGE_NAME:alpine3
     - docker tag $IMAGE $DHUB_IMAGE_NAME:alpine3.12
     - docker tag $IMAGE $DHUB_IMAGE_NAME:alpine3.12.0
-    - docker tag $IMAGE $DHUB_IMAGE_NAME:1.1.9-alpine
+    - docker tag $IMAGE $DHUB_IMAGE_NAME:1.1.9-alpine # Alpine Latest
     - docker tag $IMAGE $DHUB_IMAGE_NAME:1.1.9-alpine3
     - docker tag $IMAGE $DHUB_IMAGE_NAME:1.1.9-alpine3.12
     - docker tag $IMAGE $DHUB_IMAGE_NAME:1.1.9-alpine3.12.0
@@ -62,26 +62,27 @@ ntpsec_alpine-edge: # ntpsec:alpine-edge
     - docker tag $IMAGE $DHUB_IMAGE_NAME:1.1.9-alpine-edge
     - docker push docker.io/$DOCKER_HUB_USER/$IMAGE_NAME
 
-builder-centos_latest: # builder/centos:latest
+builder-centos_8: # builder/centos:8
   extends: .build_template
 
-ntpsec_centos8: # ntpsec:centos
+ntpsec_centos8: # ntpsec:8
   extends: .deploy_template
   script:
     - *build_script
     - *deploy_script
-    - docker tag $IMAGE $DHUB_IMAGE_NAME:centos-latest
+    - docker tag $IMAGE $DHUB_IMAGE_NAME:centos # CentOS Latest
+    - docker tag $IMAGE $DHUB_IMAGE_NAME:centos-latest # CentOS Latest
     - docker tag $IMAGE $DHUB_IMAGE_NAME:centos8
     - docker tag $IMAGE $DHUB_IMAGE_NAME:centos8.2
-    - docker tag $IMAGE $DHUB_IMAGE_NAME:1.1.9-centos
+    - docker tag $IMAGE $DHUB_IMAGE_NAME:1.1.9-centos # CentOS Latest
     - docker tag $IMAGE $DHUB_IMAGE_NAME:1.1.9-centos8
     - docker tag $IMAGE $DHUB_IMAGE_NAME:1.1.9-centos8.2
     - docker push docker.io/$DOCKER_HUB_USER/$IMAGE_NAME
 
-builder-debian_10: # builder/debian:latest
+builder-debian_10: # builder/debian:10
   extends: .build_template
 
-ntpsec_debian10: # ntpsec:debian
+ntpsec_debian10: # ntpsec:10
   extends: .deploy_template
   script:
     - *build_script
@@ -89,7 +90,6 @@ ntpsec_debian10: # ntpsec:debian
     - docker tag $IMAGE $DHUB_IMAGE_NAME:debian-buster
     - docker tag $IMAGE $DHUB_IMAGE_NAME:debian10
     - docker tag $IMAGE $DHUB_IMAGE_NAME:debian10.4
-    - docker tag $IMAGE $DHUB_IMAGE_NAME:1.1.9-debian
     - docker tag $IMAGE $DHUB_IMAGE_NAME:1.1.9-debian10
     - docker tag $IMAGE $DHUB_IMAGE_NAME:1.1.9-debian10.4
     - docker push docker.io/$DOCKER_HUB_USER/$IMAGE_NAME
@@ -102,10 +102,12 @@ ntpsec_debian10-slim: # ntpsec:debian10-slim
   script:
     - *build_script
     - *deploy_script
-    - docker tag $IMAGE $DHUB_IMAGE_NAME:debian-latest
+    - docker tag $IMAGE $DHUB_IMAGE_NAME:debian # Debian Latest
+    - docker tag $IMAGE $DHUB_IMAGE_NAME:debian-latest # Debian Latest
     - docker tag $IMAGE $DHUB_IMAGE_NAME:debian-slim
     - docker tag $IMAGE $DHUB_IMAGE_NAME:debian10-slim
     - docker tag $IMAGE $DHUB_IMAGE_NAME:debian10.4-slim
+    - docker tag $IMAGE $DHUB_IMAGE_NAME:1.1.9-debian # Debian Latest
     - docker tag $IMAGE $DHUB_IMAGE_NAME:1.1.9-debian-slim
     - docker tag $IMAGE $DHUB_IMAGE_NAME:1.1.9-debian10-slim
     - docker tag $IMAGE $DHUB_IMAGE_NAME:1.1.9-debian10.4-slim
