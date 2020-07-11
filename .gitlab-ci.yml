@@ -32,6 +32,10 @@ services:
 
 builder-alpine_3.12: # builder/alpine:3.12
   extends: .build_template
+  only:
+    changes:
+      - builder-alpine_3.12
+      - ntp.conf
 
 ntpsec_alpine3.12: # ntpsec:alpine
   extends: .deploy_template
@@ -49,9 +53,18 @@ ntpsec_alpine3.12: # ntpsec:alpine
     - docker tag $IMAGE $DHUB_IMAGE_NAME:1.1.9-alpine3.12
     - docker tag $IMAGE $DHUB_IMAGE_NAME:1.1.9-alpine3.12.0
     - docker push docker.io/$DOCKER_HUB_USER/$IMAGE_NAME
+  needs: ["builder-alpine_3.12"]
+  only:
+    changes:
+      - ntpsec_alpine3.12
+      - ntp.conf
 
 builder-alpine_edge: # builder/alpine:edge
   extends: .build_template
+  only:
+    changes:
+      - builder-alpine_edge
+      - ntp.conf
 
 ntpsec_alpine-edge: # ntpsec:alpine-edge
   extends: .deploy_template
@@ -61,9 +74,18 @@ ntpsec_alpine-edge: # ntpsec:alpine-edge
     - docker tag $IMAGE $DHUB_IMAGE_NAME:alpine-edge
     - docker tag $IMAGE $DHUB_IMAGE_NAME:1.1.9-alpine-edge
     - docker push docker.io/$DOCKER_HUB_USER/$IMAGE_NAME
+  needs: ["builder-alpine_edge"]
+  only:
+    changes:
+      - ntpsec_alpine-edge
+      - ntp.conf
 
 builder-centos_8: # builder/centos:8
   extends: .build_template
+  only:
+    changes:
+      - builder-centos_8
+      - ntp.conf
 
 ntpsec_centos8: # ntpsec:8
   extends: .deploy_template
@@ -78,9 +100,18 @@ ntpsec_centos8: # ntpsec:8
     - docker tag $IMAGE $DHUB_IMAGE_NAME:1.1.9-centos8
     - docker tag $IMAGE $DHUB_IMAGE_NAME:1.1.9-centos8.2
     - docker push docker.io/$DOCKER_HUB_USER/$IMAGE_NAME
+  needs: ["builder-centos_8"]
+  only:
+    changes:
+      - ntpsec_centos8
+      - ntp.conf
 
 builder-debian_10: # builder/debian:10
   extends: .build_template
+  only:
+    changes:
+      - builder-debian10
+      - ntp.conf
 
 ntpsec_debian10: # ntpsec:10
   extends: .deploy_template
@@ -93,9 +124,18 @@ ntpsec_debian10: # ntpsec:10
     - docker tag $IMAGE $DHUB_IMAGE_NAME:1.1.9-debian10
     - docker tag $IMAGE $DHUB_IMAGE_NAME:1.1.9-debian10.4
     - docker push docker.io/$DOCKER_HUB_USER/$IMAGE_NAME
+  needs: ["builder-debian_10"]
+  only:
+    changes:
+      - ntpsec_debian10
+      - ntp.conf
 
 builder-debian_10-slim: # builder/debian:10-slim
   extends: .build_template
+  only:
+    changes:
+      - builder-debian_10-slim
+      - ntp.conf
 
 ntpsec_debian10-slim: # ntpsec:debian10-slim
   extends: .deploy_template
@@ -112,3 +152,29 @@ ntpsec_debian10-slim: # ntpsec:debian10-slim
     - docker tag $IMAGE $DHUB_IMAGE_NAME:1.1.9-debian10-slim
     - docker tag $IMAGE $DHUB_IMAGE_NAME:1.1.9-debian10.4-slim
     - docker push docker.io/$DOCKER_HUB_USER/$IMAGE_NAME
+  needs: ["builder-debian_10-slim"]
+  only:
+    changes:
+      - ntpsec_debian10-slim
+      - ntp.conf
+
+builder-debian_testing: # builder/debian:testing
+  extends: .build_template
+  only:
+    changes:
+      - builder-debian_testing
+      - ntp.conf
+
+ntpsec_debian-testing: # ntpsec:debian0testing
+  extends: .deploy_template
+  script:
+    - *build_script
+    - *deploy_script
+    - docker tag $IMAGE $DHUB_IMAGE_NAME:debian-testing
+    - docker tag $IMAGE $DHUB_IMAGE_NAME:1.1.9-debian-testing
+    - docker push docker.io/$DOCKER_HUB_USER/$IMAGE_NAME
+  needs: ["builder-debian_testing"]
+  only:
+    changes:
+      - ntpsec_debian_testing
+      - ntp.conf

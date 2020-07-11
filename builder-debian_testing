@@ -1,0 +1,27 @@
+FROM debian:testing
+
+LABEL maintainer "rouing"
+LABEL description "NTP reference implementation, refactored for security"
+
+RUN apt-get update \
+    && apt-get install -y netbase pkg-config m4 wget tar gcc bison python3-dev libssl-dev libcap-dev libseccomp-dev pps-tools libavahi-compat-libdnssd-dev libbsd-dev python3-ntp libgps-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+ENV NTPSEC_VERSION 1.1.9
+ENV NTPSEC_DOWNLOAD_URL "https://ftp.ntpsec.org/pub/releases/ntpsec-${NTPSEC_VERSION}.tar.gz"
+ENV NTPSEC_SHA256 0acade979a807a047c2a8fd7f497235d9d6a5d0d54726e5d27505506d6ec00cc
+
+RUN set -x && \
+    mkdir -p /tmp-ntpsec && \
+    cd /tmp-ntpsec && \
+    wget -O ntpsec.tar.gz $NTPSEC_DOWNLOAD_URL && \
+    echo "${NTPSEC_SHA256} *ntpsec.tar.gz" | sha256sum -c - && \
+    tar xzf ntpsec.tar.gz --strip-components=1
+
+RUN set -x && \
+    cd /tmp-ntpsec && \
+    ln -s /usr/bin/python3 /usr/bin/python && \
+    ./waf configure --prefix=/usr --python=python3 --disable-doc --disable-manpage --enable-leap-smear --enable-mssntp --enable-seccomp --refclock=all && \
+    ./waf build --verbose && \
+    ./waf check --verbose && \
+    ./waf install
