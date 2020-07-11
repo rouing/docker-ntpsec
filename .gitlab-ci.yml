@@ -6,7 +6,7 @@
   variables:
     DOCKER_FILE: "${CI_JOB_NAME/release-/}"
     IMAGE_NAME: "${DOCKER_FILE%_*}"
-    IMAGE_NAME: "${IMAGE_NAME/-/\/}"
+    IMAGE_NAME: "${IMAGE_NAME/-//}"
     IMAGE_TAG: "${CI_JOB_NAME#*_}"
     IMAGE_LABEL: "${CI_REGISTRY_IMAGE}/${IMAGE_NAME}:${IMAGE_TAG}"
   script:
@@ -29,7 +29,7 @@
   variables:
     DOCKER_FILE: "${CI_JOB_NAME/release-/}"
     IMAGE_NAME: "${DOCKER_FILE%_*}"
-    IMAGE_NAME: "${IMAGE_NAME/-/\/}"
+    IMAGE_NAME: "${IMAGE_NAME/-//}"
     IMAGE_TAG: "${CI_JOB_NAME#*_}"
     IMAGE_LABEL: "${CI_REGISTRY_IMAGE}/${IMAGE_NAME}:${IMAGE_TAG}"
   script:
