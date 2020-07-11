@@ -44,20 +44,29 @@
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_TOKEN docker.io
     - docker push docker.io/$DOCKER_HUB_USER/$IMAGE_NAME:$IMAGE_TAG
 
-build-builder-alpine_latest:
+release-ntpsec_latest: # ntpsec:latest (alpine:latest)
+  <<: *release_definition 
+
+build-builder-alpine_latest: # builder/alpine:latest
   <<: *build_definition
 
-release-ntpsec_alpine:
+release-ntpsec_alpine: # ntpsec:alpine
   <<: *release_definition
 
-build-builder-alpine_edge:
+build-builder-alpine_edge: # builder/alpine:edge
   <<: *build_definition
 
-release-ntpsec_alpine-edge:
+release-ntpsec_alpine-edge: # ntpsec:alpine-edge
   <<: *release_definition
 
-build-builder-centos_latest:
+build-builder-centos_latest: # builder/centos:latest
   <<: *build_definition
 
-release-ntpsec_centos:
+release-ntpsec_centos: # ntpsec:centos
+  <<: *release_definition
+
+build-builder-debian_latest: # builder/debian:latest
+  <<: *build_definition
+
+release-ntpsec_debian: # ntpsec:debian
   <<: *release_definition
