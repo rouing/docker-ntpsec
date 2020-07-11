@@ -24,6 +24,8 @@
 * [`centos`, `centos-latest`, `centos8`, `centos8.2`, `1.1.9-centos`,`1.1.9-centos8`, `1.1.9-centos8.2`](https://gitlab.com/rouing/docker-ntpsec/-/blob/master/ntpsec_centos8)
 * [`debian`, `debian-latest`, `debian-slim`, `debian10-slim`, `debian10.4-slim`, `1.1.9-debian`, `1.1.9-debian-slim`, `1.1.9-debian10-slim`, `1.1.9-debian10.4-slim`](https://gitlab.com/rouing/docker-ntpsec/-/blob/master/ntpsec_debian10-slim)
 * [`debian-buster`, `debian10`, `debian10.4`, `1.1.9-debian10`, `1.1.9-debian10.4`](https://gitlab.com/rouing/docker-ntpsec/-/blob/master/ntpsec_debian10)
+* [`debian-testing`, `1.1.9-debian-testing`](https://gitlab.com/rouing/docker-ntpsec/-/blob/master/ntpsec_debian-testing)
+* [`debian-testing-slim`, `1.1.9-debian-testing-slim`](https://gitlab.com/rouing/docker-ntpsec/-/blob/master/ntpsec_debian-testing-slim)
 
 ## CLI start examples 
 ```bash
