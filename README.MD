@@ -19,7 +19,7 @@
 
 ## Supported tags and respective `Dockerfile` links
 
-* [`latest`, `alpine`, `alpine-latest, `alpine3`, `1.1.9-alpine`, `1.1.9-alpine3`](https://gitlab.com/rouing/docker-ntpsec/-/blob/master/ntpsec_alpine) 
+* [`latest`, `alpine`, `alpine-latest`, `alpine3`, `1.1.9-alpine`, `1.1.9-alpine3`](https://gitlab.com/rouing/docker-ntpsec/-/blob/master/ntpsec_alpine) 
 * [`alpine-edge`, `1.1.9-alpine-edge`](https://gitlab.com/rouing/docker-ntpsec/-/blob/master/ntpsec_alpine-edge)
 * [`centos`, `centos-latest`, `centos8`, `centos8.2`, `1.1.9-centos8`, `1.1.9-centos8.2`](https://gitlab.com/rouing/docker-ntpsec/-/blob/master/ntpsec_centos)
 * [`debian`, `debian-latest`, `debian10`, `debian10.4`, `1.1.9-debian10`, `1.1.9-debian10.4`](https://gitlab.com/rouing/docker-ntpsec/-/blob/master/ntpsec_debian)
