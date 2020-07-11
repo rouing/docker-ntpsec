@@ -4,7 +4,7 @@ FROM centos:latest
 LABEL maintainer "rouing"
 LABEL description "NTP reference implementation, refactored for security"
 
-ENV NTPSEC_RUN_DEPS python3 openssl libcap libseccomp gpsd avahi-compat-libdns_sd
+ENV NTPSEC_RUN_DEPS python3 openssl libcap libseccomp libbsd gpsd avahi-compat-libdns_sd
 
 RUN dnf -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
 RUN dnf -y install --enablerepo=epel,PowerTools $NTPSEC_RUN_DEPS

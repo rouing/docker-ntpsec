@@ -2,7 +2,7 @@ FROM centos:latest
 
 RUN dnf -y install unzip wget bison gcc gcc-c++ make openssl-devel libcap-devel python3-devel libseccomp-devel kernel-devel kernel-headers
 RUN dnf -y --enablerepo=PowerTools install pps-tools-devel avahi-compat-libdns_sd-devel
-RUN dnf -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm && dnf -y --enablerepo=epel install python3-gpsd
+RUN dnf -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm && dnf -y --enablerepo=epel install python3-gpsd libbsd-devel
 
 ENV NTPSEC_VERSION 1.1.9
 ENV NTPSEC_DOWNLOAD_URL "https://ftp.ntpsec.org/pub/releases/ntpsec-${NTPSEC_VERSION}.tar.gz"
