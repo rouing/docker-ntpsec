@@ -1,16 +1,31 @@
-This image contains the [NTPsec NTPd Server/Client](https://docs.ntpsec.org/latest/NTS-QuickStart.html).
-This allows for secure time with clients like cloudflare's NTS time serer.
+# NTPsec
 
+[NTPsec](https://ntpsec.org/) is a NTPd Network Time Server with TLS 1.3 security added to it. This allows for secure syncing/peering between 2 time servers. 
 
-Default time server is set to (0-3).ntp.pool.org 
+## Quick Reference
+* __Main git repo__: https://gitlab.com/rouing/docker-ntpsec/
+* __Mirrored git repo__: https://github.com/rouing/docker-ntpsec/
+* __NTPsec issues__: https://gitlab.com/NTPsec/ntpsec/-/issues
+* __NTPsec Docker issues__: https://gitlab.com/rouing/docker-ntpsec/-/issues
+* __NTPsec Documentation__: https://docs.ntpsec.org/latest/NTS-QuickStart.html
+* __IETF NTS Draft__: https://tools.ietf.org/html/draft-ietf-ntp-using-nts-for-ntp-28
 
+## Public NTS capable time servers
+
+* [time.cloudflare.com:1234](https://www.cloudflare.com/time/)
+* [ntpsec.anastrophe.com](https://ntpsec.anastrophe.com/) [ntp.org listing](http://support.ntp.org/bin/view/Servers/PublicTimeServer001384)
+* [ntp.keff.org](http://ntp.keff.org/)
+* [pi4.rellim.com](https://pi4.rellim.com/)
+
+## Supported tags and respective `Dockerfile` links
+
+* [`latest`, `alpine`](https://gitlab.com/rouing/docker-ntpsec/-/blob/master/ntpsec_alpine) 
+* [`alpine-edge`](https://gitlab.com/rouing/docker-ntpsec/-/blob/master/ntpsec_alpine-edge)
+* [`centos`](https://gitlab.com/rouing/docker-ntpsec/-/blob/master/ntpsec_centos)
+* [`debian`](https://gitlab.com/rouing/docker-ntpsec/-/blob/master/ntpsec_debian)
+
+## CLI start examples 
 ```bash
-
-# Build
-git pull https://github.com/rouing/docker-ntpsec/
-cd docker-ntpsec
-docker build t ardoin/ntpsec .
-
 # Run
 docker run -it --rm --name ntpsec -p123:123/udp -p123:123/tcp -v /var/lib/ntp:/var/lib/ntp  --cap-add SYS_TIME --cap-add SYS_NICE --cap-add NET_RAW --cap-add NET_BIND_SERVICE ardoin/ntpsec
 
