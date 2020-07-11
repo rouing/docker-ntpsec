@@ -34,6 +34,7 @@ builder-alpine_3.12: # builder/alpine:3.12
   extends: .build_template
   only:
     changes:
+      - ntpsec_alpine3.12
       - builder-alpine_3.12
       - ntp.conf
 
@@ -57,12 +58,14 @@ ntpsec_alpine3.12: # ntpsec:alpine
   only:
     changes:
       - ntpsec_alpine3.12
+      - builder-alpine_3.12
       - ntp.conf
 
 builder-alpine_edge: # builder/alpine:edge
   extends: .build_template
   only:
     changes:
+      - ntpsec_alpine-edge
       - builder-alpine_edge
       - ntp.conf
 
@@ -78,12 +81,14 @@ ntpsec_alpine-edge: # ntpsec:alpine-edge
   only:
     changes:
       - ntpsec_alpine-edge
+      - builder-alpine_edge
       - ntp.conf
 
 builder-centos_8: # builder/centos:8
   extends: .build_template
   only:
     changes:
+      - ntpsec_centos8
       - builder-centos_8
       - ntp.conf
 
@@ -104,12 +109,14 @@ ntpsec_centos8: # ntpsec:8
   only:
     changes:
       - ntpsec_centos8
+      - builder-centos_8
       - ntp.conf
 
 builder-debian_10: # builder/debian:10
   extends: .build_template
   only:
     changes:
+      - ntpsec_debian10
       - builder-debian10
       - ntp.conf
 
@@ -128,12 +135,14 @@ ntpsec_debian10: # ntpsec:10
   only:
     changes:
       - ntpsec_debian10
+      - builder-debian10
       - ntp.conf
 
 builder-debian_10-slim: # builder/debian:10-slim
   extends: .build_template
   only:
     changes:
+      - ntpsec_debian10-slim
       - builder-debian_10-slim
       - ntp.conf
 
@@ -156,12 +165,14 @@ ntpsec_debian10-slim: # ntpsec:debian10-slim
   only:
     changes:
       - ntpsec_debian10-slim
+      - builder-debian_10-slim
       - ntp.conf
 
 builder-debian_testing: # builder/debian:testing
   extends: .build_template
   only:
     changes:
+      - ntpsec_debian_testing
       - builder-debian_testing
       - ntp.conf
 
@@ -177,4 +188,5 @@ ntpsec_debian-testing: # ntpsec:debian0testing
   only:
     changes:
       - ntpsec_debian_testing
+      - builder-debian_testing
       - ntp.conf
