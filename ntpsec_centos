@@ -1,4 +1,4 @@
-FROM registry.gitlab.com/rouing/ntpsec/builder/centos:latest AS builder
+FROM registry.gitlab.com/rouing/docker-ntpsec/builder/centos:latest AS builder
 FROM centos:latest
 
 LABEL maintainer "rouing"

@@ -1,4 +1,4 @@
-FROM registry.gitlab.com/rouing/ntpsec/builder/alpine AS builder
+FROM registry.gitlab.com/rouing/docker-ntpsec/builder/alpine:latest AS builder
 FROM alpine:latest
 
 LABEL maintainer "rouing"
