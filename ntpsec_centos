@@ -6,7 +6,8 @@ LABEL description "NTP reference implementation, refactored for security"
 
 ENV NTPSEC_RUN_DEPS python3 openssl libcap libseccomp gpsd
 
-RUN dnf -y install $NTPSEC_RUN_DEPS
+RUN dnf -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+RUN dnf -y install --enablerepo=epel $NTPSEC_RUN_DEPS
 
 COPY --from=builder /usr/sbin/ntpd /usr/sbin/ntpd
 COPY --from=builder /usr/bin/ntp* /usr/bin/

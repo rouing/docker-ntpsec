@@ -27,9 +27,7 @@ RUN set -x && \
 
 RUN set -x && \
     cd /tmp-pps-tools && \
-    make install
-
-RUN set -x && \
+    make install && \
     cd /tmp-ntpsec && \
     alternatives --set python /usr/bin/python3 && \
     ./waf configure --prefix=/usr --python=python3 --disable-doc --disable-manpage --enable-leap-smear --enable-mssntp --enable-seccomp --refclock=all && \
