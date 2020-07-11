@@ -6,7 +6,7 @@ LABEL description "NTP reference implementation, refactored for security"
 
 ENV NTPSEC_RUN_DEPS python3 libssl1.1 libcap2 libseccomp2 pps-tools libgps26 libbsd0 libavahi-compat-libdnssd1
 
-RUN apt-get install -y $NTPSEC_RUN_DEPS
+RUN apt-get update && apt-get install -y $NTPSEC_RUN_DEPS && rm -rf /var/lib/apt/lists/*
 
 COPY --from=builder /usr/sbin/ntpd /usr/sbin/ntpd
 COPY --from=builder /usr/bin/ntp* /usr/bin/
