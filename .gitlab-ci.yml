@@ -44,29 +44,52 @@
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_TOKEN docker.io
     - docker push docker.io/$DOCKER_HUB_USER/$IMAGE_NAME:$IMAGE_TAG
 
-release-ntpsec_latest: # ntpsec:latest (alpine:latest)
-  <<: *release_definition 
-
 build-builder-alpine_latest: # builder/alpine:latest
   <<: *build_definition
 
 release-ntpsec_alpine: # ntpsec:alpine
   <<: *release_definition
+  after_script:
+    - docker tag $DOCKER_HUB_USER/$IMAGE_NAME:latest
+    - docker tag $DOCKER_HUB_USER/$IMAGE_NAME:alpine-latest
+    - docker tag $DOCKER_HUB_USER/$IMAGE_NAME:alpine3
+    - docker tag $DOCKER_HUB_USER/$IMAGE_NAME:1.1.9-alpine
+    - docker tag $DOCKER_HUB_USER/$IMAGE_NAME:1.1.9-alpine3
+    - docker push docker.io/$DOCKER_HUB_USER/$IMAGE_NAME
 
 build-builder-alpine_edge: # builder/alpine:edge
   <<: *build_definition
 
 release-ntpsec_alpine-edge: # ntpsec:alpine-edge
   <<: *release_definition
+  after_script:
+    - docker tag $DOCKER_HUB_USER/$IMAGE_NAME:1.1.9-alpine-edge
+    - docker push docker.io/$DOCKER_HUB_USER/$IMAGE_NAME
 
 build-builder-centos_latest: # builder/centos:latest
   <<: *build_definition
 
 release-ntpsec_centos: # ntpsec:centos
   <<: *release_definition
+  after_script:
+    - docker tag $DOCKER_HUB_USER/$IMAGE_NAME:centos-latest
+    - docker tag $DOCKER_HUB_USER/$IMAGE_NAME:centos8
+    - docker tag $DOCKER_HUB_USER/$IMAGE_NAME:centos8.2
+    - docker tag $DOCKER_HUB_USER/$IMAGE_NAME:1.1.9-centos
+    - docker tag $DOCKER_HUB_USER/$IMAGE_NAME:1.1.9-centos8
+    - docker tag $DOCKER_HUB_USER/$IMAGE_NAME:1.1.9-centos8.2
+    - docker push docker.io/$DOCKER_HUB_USER/$IMAGE_NAME
 
 build-builder-debian_latest: # builder/debian:latest
   <<: *build_definition
 
 release-ntpsec_debian: # ntpsec:debian
   <<: *release_definition
+  after_script:
+    - docker tag $DOCKER_HUB_USER/$IMAGE_NAME:debian-latest
+    - docker tag $DOCKER_HUB_USER/$IMAGE_NAME:debian10
+    - docker tag $DOCKER_HUB_USER/$IMAGE_NAME:debian10.4
+    - docker tag $DOCKER_HUB_USER/$IMAGE_NAME:1.1.9-debian
+    - docker tag $DOCKER_HUB_USER/$IMAGE_NAME:1.1.9-debian10
+    - docker tag $DOCKER_HUB_USER/$IMAGE_NAME:1.1.9-debian10.4
+    - docker push docker.io/$DOCKER_HUB_USER/$IMAGE_NAME
