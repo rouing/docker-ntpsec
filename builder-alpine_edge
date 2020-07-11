@@ -1,0 +1,36 @@
+FROM alpine:edge
+
+RUN apk upgrade --no-cache && apk add --no-cache m4 tar sed build-base bison openssl-dev libcap-dev python3-dev linux-lts-dev linux-headers libseccomp-dev libexecinfo-dev libbsd-dev py3-gpsd gpsd-dev openssl-dev avahi-dev
+
+ENV NTPSEC_VERSION 1.1.9
+ENV NTPSEC_DOWNLOAD_URL "https://ftp.ntpsec.org/pub/releases/ntpsec-${NTPSEC_VERSION}.tar.gz"
+ENV NTPSEC_SHA256 0acade979a807a047c2a8fd7f497235d9d6a5d0d54726e5d27505506d6ec00cc
+
+ENV PPS_TOOLS_DOWNLOAD_URL "https://github.com/redlab-i/pps-tools/archive/master.zip"
+ENV PPS_TOOLS_SHA256 48f09d2690af18ef12bb61ab8e39788d625fc8c2c2fb86a1c990d7de73d4b437
+
+RUN set -x && \
+    mkdir -p /tmp-pps-tools && \
+    cd /tmp-pps-tools && \
+    wget -O pps-tools.zip $PPS_TOOLS_DOWNLOAD_URL && \
+    echo "${PPS_TOOLS_SHA256} *pps-tools.zip" | sha256sum -c - && \
+    unzip -j pps-tools.zip
+
+RUN set -x && \
+    mkdir -p /tmp-ntpsec && \
+    cd /tmp-ntpsec && \
+    wget -O ntpsec.tar.gz $NTPSEC_DOWNLOAD_URL && \
+    echo "${NTPSEC_SHA256} *ntpsec.tar.gz" | sha256sum -c - && \
+    tar xzf ntpsec.tar.gz --strip-components=1
+
+RUN set -x && \
+    cd /tmp-pps-tools && \
+    make install
+
+RUN set -x && \
+    cd /tmp-ntpsec && \
+    ln -s /usr/bin/python3.8 /usr/bin/python && \
+    ./waf configure --prefix=/usr --python=python3 --disable-doc --disable-manpage --enable-leap-smear --enable-mssntp --enable-seccomp --refclock=all && \
+    ./waf build --verbose && \
+    ./waf check --verbose && \
+    ./waf install
