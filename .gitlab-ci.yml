@@ -4,11 +4,11 @@
   services:
     - docker:stable-dind
   variables:
-    DOCKER_FILE: "${CI_JOB_NAME/release-/}"
-    IMAGE_NAME: "${DOCKER_FILE%_*}"
-    IMAGE_NAME: "${IMAGE_NAME/-//}"
-    IMAGE_TAG: "${CI_JOB_NAME#*_}"
-    IMAGE_LABEL: "${CI_REGISTRY_IMAGE}/${IMAGE_NAME}:${IMAGE_TAG}"
+    DOCKER_FILE: ${CI_JOB_NAME/release-/}
+    IMAGE_NAMESPACE: ${DOCKER_FILE%_*}
+    IMAGE_NAME: ${IMAGE_NAMESPACE/-/\/}
+    IMAGE_TAG: ${CI_JOB_NAME#*_}
+    IMAGE_LABEL: ${CI_REGISTRY_IMAGE}/${IMAGE_NAME}:${IMAGE_TAG}
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker pull $IMAGE_LABEL || true
@@ -27,11 +27,11 @@
   services:
     - docker:stable-dind
   variables:
-    DOCKER_FILE: "${CI_JOB_NAME/release-/}"
-    IMAGE_NAME: "${DOCKER_FILE%_*}"
-    IMAGE_NAME: "${IMAGE_NAME/-//}"
-    IMAGE_TAG: "${CI_JOB_NAME#*_}"
-    IMAGE_LABEL: "${CI_REGISTRY_IMAGE}/${IMAGE_NAME}:${IMAGE_TAG}"
+    DOCKER_FILE: ${CI_JOB_NAME/release-/}
+    IMAGE_NAMESPACE: ${DOCKER_FILE%_*}
+    IMAGE_NAME: ${IMAGE_NAMESPACE/-/\/}
+    IMAGE_TAG: ${CI_JOB_NAME#*_}
+    IMAGE_LABEL: ${CI_REGISTRY_IMAGE}/${IMAGE_NAME}:${IMAGE_TAG}
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker pull $IMAGE_NS || true
