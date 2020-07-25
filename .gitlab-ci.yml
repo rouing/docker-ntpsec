@@ -190,3 +190,26 @@ ntpsec_debian-testing: # ntpsec:debian-testing
       - ntpsec_debian_testing
       - builder-debian_testing
       - ntp.conf
+
+builder-debian_testing-slim: # builder/debian:testing-slim
+  extends: .build_template
+  only:
+    changes:
+      - ntpsec_debian_testing-slim
+      - builder-debian_testing-slim
+      - ntp.conf
+
+ntpsec_debian-testing-slim: # ntpsec:debian-testing-slim
+  extends: .deploy_template
+  script:
+    - *build_script
+    - *deploy_script
+    - docker tag $IMAGE $DHUB_IMAGE_NAME:debian-testing-slim
+    - docker tag $IMAGE $DHUB_IMAGE_NAME:1.1.9-debian-testing-slim
+    - docker push docker.io/$DOCKER_HUB_USER/$IMAGE_NAME
+  needs: ["builder-debian_testing-slim"]
+  only:
+    changes:
+      - ntpsec_debian_testing-slim
+      - builder-debian_testing-slim
+      - ntp.conf
